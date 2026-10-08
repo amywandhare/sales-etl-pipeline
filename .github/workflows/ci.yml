@@ -50,11 +50,11 @@ jobs:
 
       - name: Run Ruff linting
         run: |
-          ruff check sales_etl
+          ruff check src/sales_etl
 
       - name: Run Bandit security scan
         run: |
-          bandit -r sales_etl
+          bandit -r src/sales_etl
 
       - name: Run dependency vulnerability scan
         run: |
