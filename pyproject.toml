@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sales-etl-pipeline"
+version = "0.1.0"
+description = "PySpark ETL pipeline for sales data in a medallion architecture"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "pyspark==3.5.3",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8.0.0,<10.0.0"]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.data-files]
+"share/sales-etl/data/raw" = ["data/raw/sales.csv"]
+
+[project.scripts]
+sales-etl = "sales_etl.cli:main"

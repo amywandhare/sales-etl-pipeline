@@ -1,0 +1,166 @@
+name: Sales ETL CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+  pull_request:
+    branches:
+      - main
+      - master
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-build:
+    name: Test, Scan and Build Package
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out source # download the source code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Install package and dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[test]"
+          python -m pip install ruff bandit pip-audit twine
+
+      - name: Verify package imports
+        run: |
+          python -c "import sales_etl; print('Package import successful')"
+
+      - name: Run Ruff linting
+        run: |
+          ruff check sales_etl
+
+      - name: Run Bandit security scan
+        run: |
+          bandit -r sales_etl
+
+      - name: Run dependency vulnerability scan
+        run: |
+          pip-audit
+
+      - name: Run tests with coverage
+        run: |
+          python -m pytest \
+            -v \
+            --cov=sales_etl \
+            --cov-report=term-missing \
+            --cov-report=xml \
+            --cov-fail-under=90
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage.xml
+          if-no-files-found: error
+
+      # ==========================================================
+      # Enterprise SonarQube / SonarCloud Example
+      # Requires:
+      #   - SonarQube Server or SonarCloud Account
+      #   - SONAR_TOKEN GitHub Secret
+      #   - sonar-project.properties file
+      # ==========================================================
+      #
+      # - name: SonarQube Analysis
+      #   uses: SonarSource/sonarqube-scan-action@master
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #     SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      #
+      # Example sonar-project.properties:
+      #
+      # sonar.projectKey=sales-etl
+      # sonar.sources=sales_etl
+      # sonar.tests=tests
+      # sonar.python.coverage.reportPaths=coverage.xml
+
+      # ==========================================================
+      # Enterprise Fortify on Prem (FOP) Example
+      # Requires:
+      #   - Fortify SSC
+      #   - Fortify ScanCentral
+      #   - Organization License
+      #   - Enterprise Credentials
+      # ==========================================================
+      #
+      # - name: Fortify Static Scan
+      #   run: |
+      #     sourceanalyzer -b sales-etl-build -clean
+      #     sourceanalyzer -b sales-etl-build sales_etl
+      #     sourceanalyzer -b sales-etl-build \
+      #       -scan \
+      #       -f sales-etl.fpr
+      #
+      # - name: Upload Fortify Report
+      #   run: |
+      #     fortifyclient uploadFPR \
+      #       -file sales-etl.fpr \
+      #       -project "Sales ETL"
+
+      # ==========================================================
+      # Enterprise Sonatype / Nexus IQ Example
+      # Requires:
+      #   - Nexus IQ Server
+      #   - Application Registration
+      #   - Organization Credentials
+      # ==========================================================
+      #
+      # - name: Nexus IQ Policy Scan
+      #   run: |
+      #     java -jar nexus-iq-cli.jar \
+      #       -s ${{ secrets.NEXUS_IQ_SERVER }} \
+      #       -a ${{ secrets.NEXUS_IQ_USER }}:${{ secrets.NEXUS_IQ_PASSWORD }} \
+      #       -i sales-etl \
+      #       .
+
+      - name: Build wheel
+        run: |
+          python -m pip wheel \
+            --no-deps \
+            --wheel-dir dist \
+            .
+
+      - name: Validate wheel
+        run: |
+          twine check dist/*
+
+      - name: Upload wheel artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sales-etl-wheel
+          path: dist/*.whl
+          if-no-files-found: error
+
+      # ==========================================================
+      # Optional Docker Validation
+      # Uncomment when Dockerfile is added
+      # ==========================================================
+      #
+      # - name: Build Docker Image
+      #   run: |
+      #     docker build \
+      #       -t sales-etl:${{ github.run_number }} \
+      #       .

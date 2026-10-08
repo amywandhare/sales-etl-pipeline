@@ -1,0 +1,9 @@
+row_id,order_id,order_date,ship_date,ship_mode,customer_id,customer_name,segment,country,city
+1,CA-2018-10001,2018-11-28,2018-11-30,First Class,C-10001,Alice Johnson,Consumer,United States,New York
+2,CA-2018-10002,2018-12-01,2018-12-03,Second Class,C-10001,Alice Johnson,Consumer,United States,New York
+3,CA-2018-10003,2018-12-10,2018-12-12,Standard Class,C-10002,Bob Smith,Corporate,Canada,Toronto
+4,CA-2018-10004,2018-12-20,2018-12-22,Same Day,C-10002,Bob Smith,Corporate,Canada,Toronto
+5,CA-2018-10005,2018-12-30,2018-12-31,Standard Class,C-10003,Carol White,Consumer,United States,Boston
+6,CA-2018-10006,2018-07-15,2018-07-18,First Class,C-10001,Alice Johnson,Consumer,United States,New York
+7,CA-2018-10007,2018-08-08,2018-08-10,Second Class,C-10004,Daniel Brown,Home Office,United States,Chicago
+8,CA-2018-10008,2018-01-05,2018-01-07,Standard Class,C-10005,Eva Davis,Corporate,United Kingdom,London
