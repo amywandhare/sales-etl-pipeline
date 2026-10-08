@@ -144,10 +144,9 @@ class SalesETLPipeline:
 
             return result
 
-        except Exception as exc:
+        except Exception:
             self.logger.exception(
-                "Sales ETL Pipeline failed. Error=%s",
-                str(exc),
+                "Sales ETL Pipeline failed."
             )
             raise
 
@@ -165,9 +164,8 @@ class SalesETLPipeline:
                 "Spark session stopped successfully."
             )
 
-        except Exception as exc:
+        except Exception:
             self.logger.exception(
-                "Error while stopping Spark session. Error=%s",
-                str(exc),
+                "Sales ETL Pipeline failed."
             )
             raise

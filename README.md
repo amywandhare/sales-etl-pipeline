@@ -79,7 +79,7 @@ The Spark runtime also requires a supported Java installation (Java 8, 11, or 17
 
 ### Run locally with Docker (optional)
 
-Docker runs the project in a Linux container with Python and Java installed, eliminating the Windows `winutils.exe` requirement. Install Docker Desktop and ensure Linux containers are enabled, then run the following commands from the project root in PowerShell:
+Docker runs the project in a Linux container with Python and Java installed, eliminating the the Windows `winutils.exe` requirement. Install Docker Desktop and ensure Linux containers are enabled, then run the following commands from the project root in PowerShell:
 
 ```powershell
 docker build -t sales-etl .

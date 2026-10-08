@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=68", "wheel"]
+requires = ["setuptools>=83.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -9,7 +9,7 @@ description = "PySpark ETL pipeline for sales data in a medallion architecture"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "pyspark==3.5.3",
+    "pyspark==3.5.8",
 ]
 
 [project.optional-dependencies]

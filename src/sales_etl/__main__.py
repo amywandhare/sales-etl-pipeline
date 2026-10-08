@@ -1,5 +1,4 @@
 from sales_etl.cli import main
 
-
 if __name__ == "__main__":
     main()
