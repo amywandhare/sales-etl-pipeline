@@ -66,7 +66,7 @@ Dockerfile                    # Containerization
 
 ### Windows prerequisite
 
-   The project pins PySpark 3.5.3 for reproducibility; its bundled Hadoop client is 3.3.4. Native Windows Parquet writes require genuine Hadoop Windows binaries built for Hadoop 3.3.4, including `winutils.exe` and its matching native DLLs. Set `HADOOP_HOME` to the directory containing the `bin` folder. Do not rename `cmd.exe` to `winutils.exe`; the pipeline detects and rejects that invalid workaround. A Linux environment is an alternative that does not require `winutils.exe`.
+   The project pins PySpark 3.5.3 for reproducibility; its bundled Hadoop client is 3.3.4. Native Windows Parquet writes requires genuine Hadoop Windows binaries built for Hadoop 3.3.4, including `winutils.exe` and its matching native DLLs. Set `HADOOP_HOME` to the directory containing the `bin` folder. Do not rename `cmd.exe` to `winutils.exe`; the pipeline detects and rejects that invalid workaround. A Linux environment is an alternative that does not require `winutils.exe`.
 
 For example, in PowerShell:
 
