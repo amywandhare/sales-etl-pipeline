@@ -2,7 +2,7 @@ from pathlib import Path
 from sysconfig import get_path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-_SOURCE_INPUT_PATH = PROJECT_ROOT / "data" / "raw" / "new_sales.csv"
+_SOURCE_INPUT_PATH = PROJECT_ROOT / "data" / "raw" / "sales.csv"
 _INSTALLED_INPUT_PATH = (
     Path(get_path("data")) / "share" / "sales-etl" / "data" / "raw" / "sales.csv"
 )
