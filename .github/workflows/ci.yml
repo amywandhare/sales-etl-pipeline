@@ -58,7 +58,13 @@ jobs:
 
       - name: Run dependency vulnerability scan
         run: |
-          pip-audit
+          pip-audit -f json -o pip-audit-report.json || true
+         
+      - name: Upload dependency scan report
+        uses: actions/upload-artifact@v4
+        with:
+          name: pip-audit-report
+          path: pip-audit-report.json
 
       - name: Run tests with coverage
         run: |
