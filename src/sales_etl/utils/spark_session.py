@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import os
-import subprocess
+import subprocess  # nosec B404
+
+# Required to validate genuine Hadoop winutils.exe binaries.
 import sys
 from pathlib import Path
 
@@ -32,14 +34,18 @@ class SparkSessionFactory:
             )
 
         try:
-            probe = subprocess.run(
+            probe = subprocess.run(  # nosec B603
                 [str(winutils_exe), "help"],
                 stdin=subprocess.DEVNULL,
                 capture_output=True,
                 text=True,
                 timeout=5,
                 check=False,
-            )
+            )   
+            # Safe because:
+            # - executable path is validated
+            # - arguments are hardcoded
+            # - shell=True is not used
         except (OSError, subprocess.TimeoutExpired) as exc:
             raise RuntimeError(
                 f"Unable to validate Hadoop winutils.exe at {winutils_exe}."
