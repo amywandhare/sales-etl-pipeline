@@ -47,7 +47,10 @@ def test_gold_sales_and_customer_products(
         "data_quality",
     }
 
-    assert sales_df.count() == 8
+    # Sales should preserve all valid Silver records
+    assert sales_df.count() == silver_df.count()
+
+    # Customer and DQ datasets should contain data
     assert customer_df.count() > 0
     assert dq_df.count() > 0
 
