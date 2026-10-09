@@ -15,7 +15,6 @@ from sales_etl.transformations.sales_transform import (
     transform_sales_to_silver,
 )
 
-
 BRONZE_SCHEMA = StructType(
     [
         StructField("row_id", StringType(), True),

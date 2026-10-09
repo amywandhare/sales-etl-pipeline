@@ -1,5 +1,4 @@
 import pytest
-
 from pyspark.sql import functions as F
 from pyspark.sql.types import (
     IntegerType,
@@ -12,7 +11,6 @@ from sales_etl.transformations.data_quality import (
     build_data_quality_report,
     split_valid_invalid_records,
 )
-
 
 QUALITY_TEST_SCHEMA = StructType(
     [
